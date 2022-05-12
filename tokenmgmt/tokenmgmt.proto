@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package tokenmgmt;
+
+option go_package = "example.com/go-tokenmgmt-grpc;go_tokenmgmt_grpc";
+
+message TokenData {
+	uint32 id = 1;
+	string host = 2;
+	uint32 port = 3;
+}
+
+message WriteData {
+	uint32 id = 1;
+	string name = 2;
+	uint32 port = 3;
+	uint64 low = 4;
+	uint64 mid = 5;
+	uint64 high = 6;
+}
+
+message SuccessStatus {
+	string msg = 1;
+}
+
+message ResultRead {
+	uint64 finalval = 1; 
+}
+
+message ResultWrite {
+	uint64 partialval = 1;
+}
+
+service TokenManagement {
+	rpc Create(TokenData) returns (SuccessStatus) {}
+	rpc Read(TokenData) returns (ResultRead) {}
+	rpc Write(WriteData) returns (ResultWrite) {}
+	rpc Drop(TokenData) returns (SuccessStatus) {}
+}

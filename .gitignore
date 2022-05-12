@@ -1,1 +1,6 @@
 resources/
+tokenclient/
+tokenserver/
+client.sh
+server.sh
+commandtester.py
