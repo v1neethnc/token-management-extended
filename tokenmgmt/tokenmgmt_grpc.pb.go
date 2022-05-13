@@ -18,10 +18,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TokenManagementClient interface {
-	Create(ctx context.Context, in *TokenData, opts ...grpc.CallOption) (*SuccessStatus, error)
-	Read(ctx context.Context, in *TokenData, opts ...grpc.CallOption) (*ResultRead, error)
-	Write(ctx context.Context, in *WriteData, opts ...grpc.CallOption) (*ResultWrite, error)
-	Drop(ctx context.Context, in *TokenData, opts ...grpc.CallOption) (*SuccessStatus, error)
+	Create(ctx context.Context, in *CreateInput, opts ...grpc.CallOption) (*SuccessStatus, error)
+	Read(ctx context.Context, in *ReadInput, opts ...grpc.CallOption) (*ResultRead, error)
+	Write(ctx context.Context, in *WriteInput, opts ...grpc.CallOption) (*ResultWrite, error)
+	Drop(ctx context.Context, in *CreateInput, opts ...grpc.CallOption) (*SuccessStatus, error)
 }
 
 type tokenManagementClient struct {
@@ -32,7 +32,7 @@ func NewTokenManagementClient(cc grpc.ClientConnInterface) TokenManagementClient
 	return &tokenManagementClient{cc}
 }
 
-func (c *tokenManagementClient) Create(ctx context.Context, in *TokenData, opts ...grpc.CallOption) (*SuccessStatus, error) {
+func (c *tokenManagementClient) Create(ctx context.Context, in *CreateInput, opts ...grpc.CallOption) (*SuccessStatus, error) {
 	out := new(SuccessStatus)
 	err := c.cc.Invoke(ctx, "/tokenmgmt.TokenManagement/Create", in, out, opts...)
 	if err != nil {
@@ -41,7 +41,7 @@ func (c *tokenManagementClient) Create(ctx context.Context, in *TokenData, opts 
 	return out, nil
 }
 
-func (c *tokenManagementClient) Read(ctx context.Context, in *TokenData, opts ...grpc.CallOption) (*ResultRead, error) {
+func (c *tokenManagementClient) Read(ctx context.Context, in *ReadInput, opts ...grpc.CallOption) (*ResultRead, error) {
 	out := new(ResultRead)
 	err := c.cc.Invoke(ctx, "/tokenmgmt.TokenManagement/Read", in, out, opts...)
 	if err != nil {
@@ -50,7 +50,7 @@ func (c *tokenManagementClient) Read(ctx context.Context, in *TokenData, opts ..
 	return out, nil
 }
 
-func (c *tokenManagementClient) Write(ctx context.Context, in *WriteData, opts ...grpc.CallOption) (*ResultWrite, error) {
+func (c *tokenManagementClient) Write(ctx context.Context, in *WriteInput, opts ...grpc.CallOption) (*ResultWrite, error) {
 	out := new(ResultWrite)
 	err := c.cc.Invoke(ctx, "/tokenmgmt.TokenManagement/Write", in, out, opts...)
 	if err != nil {
@@ -59,7 +59,7 @@ func (c *tokenManagementClient) Write(ctx context.Context, in *WriteData, opts .
 	return out, nil
 }
 
-func (c *tokenManagementClient) Drop(ctx context.Context, in *TokenData, opts ...grpc.CallOption) (*SuccessStatus, error) {
+func (c *tokenManagementClient) Drop(ctx context.Context, in *CreateInput, opts ...grpc.CallOption) (*SuccessStatus, error) {
 	out := new(SuccessStatus)
 	err := c.cc.Invoke(ctx, "/tokenmgmt.TokenManagement/Drop", in, out, opts...)
 	if err != nil {
@@ -72,10 +72,10 @@ func (c *tokenManagementClient) Drop(ctx context.Context, in *TokenData, opts ..
 // All implementations must embed UnimplementedTokenManagementServer
 // for forward compatibility
 type TokenManagementServer interface {
-	Create(context.Context, *TokenData) (*SuccessStatus, error)
-	Read(context.Context, *TokenData) (*ResultRead, error)
-	Write(context.Context, *WriteData) (*ResultWrite, error)
-	Drop(context.Context, *TokenData) (*SuccessStatus, error)
+	Create(context.Context, *CreateInput) (*SuccessStatus, error)
+	Read(context.Context, *ReadInput) (*ResultRead, error)
+	Write(context.Context, *WriteInput) (*ResultWrite, error)
+	Drop(context.Context, *CreateInput) (*SuccessStatus, error)
 	mustEmbedUnimplementedTokenManagementServer()
 }
 
@@ -83,16 +83,16 @@ type TokenManagementServer interface {
 type UnimplementedTokenManagementServer struct {
 }
 
-func (UnimplementedTokenManagementServer) Create(context.Context, *TokenData) (*SuccessStatus, error) {
+func (UnimplementedTokenManagementServer) Create(context.Context, *CreateInput) (*SuccessStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedTokenManagementServer) Read(context.Context, *TokenData) (*ResultRead, error) {
+func (UnimplementedTokenManagementServer) Read(context.Context, *ReadInput) (*ResultRead, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Read not implemented")
 }
-func (UnimplementedTokenManagementServer) Write(context.Context, *WriteData) (*ResultWrite, error) {
+func (UnimplementedTokenManagementServer) Write(context.Context, *WriteInput) (*ResultWrite, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Write not implemented")
 }
-func (UnimplementedTokenManagementServer) Drop(context.Context, *TokenData) (*SuccessStatus, error) {
+func (UnimplementedTokenManagementServer) Drop(context.Context, *CreateInput) (*SuccessStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Drop not implemented")
 }
 func (UnimplementedTokenManagementServer) mustEmbedUnimplementedTokenManagementServer() {}
@@ -109,7 +109,7 @@ func RegisterTokenManagementServer(s grpc.ServiceRegistrar, srv TokenManagementS
 }
 
 func _TokenManagement_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TokenData)
+	in := new(CreateInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -121,13 +121,13 @@ func _TokenManagement_Create_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/tokenmgmt.TokenManagement/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TokenManagementServer).Create(ctx, req.(*TokenData))
+		return srv.(TokenManagementServer).Create(ctx, req.(*CreateInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _TokenManagement_Read_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TokenData)
+	in := new(ReadInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -139,13 +139,13 @@ func _TokenManagement_Read_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/tokenmgmt.TokenManagement/Read",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TokenManagementServer).Read(ctx, req.(*TokenData))
+		return srv.(TokenManagementServer).Read(ctx, req.(*ReadInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _TokenManagement_Write_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WriteData)
+	in := new(WriteInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -157,13 +157,13 @@ func _TokenManagement_Write_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: "/tokenmgmt.TokenManagement/Write",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TokenManagementServer).Write(ctx, req.(*WriteData))
+		return srv.(TokenManagementServer).Write(ctx, req.(*WriteInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _TokenManagement_Drop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TokenData)
+	in := new(CreateInput)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -175,7 +175,7 @@ func _TokenManagement_Drop_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/tokenmgmt.TokenManagement/Drop",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TokenManagementServer).Drop(ctx, req.(*TokenData))
+		return srv.(TokenManagementServer).Drop(ctx, req.(*CreateInput))
 	}
 	return interceptor(ctx, in, info, handler)
 }

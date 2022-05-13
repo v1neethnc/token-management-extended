@@ -54,15 +54,15 @@ func main() {
 	mastercmd := flag.NewFlagSet("test", flag.ExitOnError)
 	idptr := mastercmd.Int("id", 0, "id of token")
 	nameptr := mastercmd.String("name", "foobar", "name of token")
-	hostptr := mastercmd.String("host", "localhost", "host to connect to")
-	portptr := mastercmd.Int("port", 50051, "port to connect to")
+	// hostptr := mastercmd.String("host", "localhost", "host to connect to")
+	// portptr := mastercmd.Int("port", 50051, "port to connect to")
 	lowptr := mastercmd.Int("low", 0, "low value of token")
 	midptr := mastercmd.Int("mid", 0, "mid value of token")
 	highptr := mastercmd.Int("high", 0, "high value of token")
-	dropptr := mastercmd.Int("drop", 0, "id of token")
+	// dropptr := mastercmd.Int("drop", 0, "id of token")
 
 	var writer string
-	var id_val int
+	// var id_val int
 	var readers []string
 
 	// Parse the command line arguments
@@ -73,7 +73,7 @@ func main() {
 	}
 	token_info := yaml_data_retriever(*idptr)
 	if token_info.Token != 0 {
-		id_val = token_info.Token
+		// id_val = token_info.Token
 		writer = token_info.Writer
 		readers = strings.Split(token_info.Readers, " ")
 	}
@@ -82,38 +82,22 @@ func main() {
 	switch os.Args[1] {
 	case "-create":
 		writer_port := strings.Index(writer, ":")
-		var port_list []string
-		port_list = append(port_list, writer[writer_port+1:])
-		for _, element := range readers {
-			port := strings.Index(element, ":")
-			if element[len(element)-1:] == "," {
-				port_list = append(port_list, element[port+1:len(element)-1])
-			} else {
-				port_list = append(port_list, element[port+1:])
-			}
+		// fmt.Println(writer[writer_port+1:])
+		cmd := exec.Command("go", "run", "servercode/servercode.go", "-port", writer[writer_port+1:])
+		// filename := "logs/" + writer[writer_port+1:] + "_log.txt"
+		// outfile, err := os.Create(filename)
+		// if err != nil {
+		// 	panic(err)
+		// }
+		// defer outfile.Close()
+		// cmd.Stdout = outfile
 
+		err := cmd.Start()
+		if err != nil {
+			panic(err)
 		}
-		for _, element := range port_list {
-			cmd := exec.Command("tokenserver/tokenserver", "-port", element)
-
-			// open the out file for writing
-			filename := "logs/" + element + "_log.txt"
-			outfile, err := os.Create(filename)
-			if err != nil {
-				panic(err)
-			}
-			defer outfile.Close()
-			cmd.Stdout = outfile
-
-			err = cmd.Start()
-			if err != nil {
-				panic(err)
-			}
-
-		}
-
-		// Connect to the port on localhost
-		// address := *hostptr + ":" + strconv.Itoa(*portptr)
+		// wrt := "localhost:" + writer[writer_port+1:]
+		// fmt.Println(wrt)
 		conn, err := grpc.Dial(writer, grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			log.Fatalf("Could not connect: %v", err)
@@ -123,8 +107,9 @@ func main() {
 		// Get context and set a 10 second timeout
 		c := pb.NewTokenManagementClient(conn)
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		// fmt.Println(c, ctx)
 		defer cancel()
-		res, _ := c.Create(ctx, &pb.TokenData{Id: uint32(*idptr), Host: *hostptr, Port: uint32(*portptr)})
+		res, _ := c.Create(ctx, &pb.CreateInput{Id: uint32(*idptr), Source: "client"})
 		log.Println("\nResponse from the server:", res.Msg)
 
 	case "-read":
@@ -141,23 +126,42 @@ func main() {
 		random_ind := rand.Intn(len(reader_ports))
 		reader := reader_ports[random_ind]
 		fmt.Println(reader, random_ind, reader_ports)
-	// res, _ := c.Read(ctx, &pb.TokenData{Id: uint32(*idptr), Host: *hostptr, Port: uint32(*portptr)})
-	// if res.Finalval == 0 {
-	// 	log.Println("\nResponse from the server: Token does not exist.")
-	// } else {
-	// 	log.Println("\nResponse from the server:", res.Finalval)
-	// }
+		rdr := "127.0.0.1:" + reader
+		conn, err := grpc.Dial(rdr, grpc.WithInsecure(), grpc.WithBlock())
+		if err != nil {
+			log.Fatalf("Could not connect: %v", err)
+		}
+		defer conn.Close()
+		c := pb.NewTokenManagementClient(conn)
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		res, _ := c.Read(ctx, &pb.ReadInput{Id: uint32(*idptr)})
+		if res.Finalval == 0 {
+			log.Println("\nResponse from the server: Token does not exist.")
+		} else {
+			log.Println("\nResponse from the server:", res.Finalval)
+		}
 
 	case "-write":
 		ind := strings.Index(writer, ":")
 		port := writer[ind+1:]
 		fmt.Println(port)
-		// 	res, _ := c.Write(ctx, &pb.WriteData{Id: uint32(*idptr), Name: *nameptr, Port: uint32(*portptr), Low: uint64(*lowptr), Mid: uint64(*midptr), High: uint64(*highptr)})
-		// 	if res.Partialval == 0 {
-		// 		log.Println("\nResponse from the server: Token does not exist.")
-		// 	} else {
-		// 		log.Println("\nResponse from the server:", res.Partialval)
-		// 	}
+		conn, err := grpc.Dial(writer, grpc.WithInsecure(), grpc.WithBlock())
+		if err != nil {
+			log.Fatalf("Could not connect: %v", err)
+		}
+		defer conn.Close()
+
+		// Get context and set a 10 second timeout
+		c := pb.NewTokenManagementClient(conn)
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		res, _ := c.Write(ctx, &pb.WriteInput{Id: uint32(*idptr), Name: *nameptr, Low: uint64(*lowptr), Mid: uint64(*midptr), High: uint64(*highptr), Source: "client"})
+		if res.Partialval == 0 {
+			log.Println("\nResponse from the server: Token does not exist.")
+		} else {
+			log.Println("\nResponse from the server:", res.Partialval)
+		}
 
 		// case "-drop":
 		// 	res, _ := c.Drop(ctx, &pb.TokenData{Id: uint32(*dropptr), Host: *hostptr, Port: uint32(*portptr)})
