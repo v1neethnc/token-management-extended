@@ -106,7 +106,7 @@ func main() {
 
 		// Get context and set a 10 second timeout
 		c := pb.NewTokenManagementClient(conn)
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		// fmt.Println(c, ctx)
 		defer cancel()
 		res, _ := c.Create(ctx, &pb.CreateInput{Id: uint32(*idptr), Source: "client"})
@@ -133,13 +133,17 @@ func main() {
 		}
 		defer conn.Close()
 		c := pb.NewTokenManagementClient(conn)
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		res, _ := c.Read(ctx, &pb.ReadInput{Id: uint32(*idptr)})
-		if res.Finalval == 0 {
-			log.Println("\nResponse from the server: Token does not exist.")
+		res, err := c.Read(ctx, &pb.ReadInput{Id: uint32(*idptr)})
+		if err != nil {
+			panic(err)
 		} else {
-			log.Println("\nResponse from the server:", res.Finalval)
+			if res.Finalval == 0 {
+				log.Println("\nResponse from the server: Token does not exist.")
+			} else {
+				log.Println("\nResponse from the server:", res.Finalval)
+			}
 		}
 
 	case "-write":
@@ -154,7 +158,7 @@ func main() {
 
 		// Get context and set a 10 second timeout
 		c := pb.NewTokenManagementClient(conn)
-		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 		res, _ := c.Write(ctx, &pb.WriteInput{Id: uint32(*idptr), Name: *nameptr, Low: uint64(*lowptr), Mid: uint64(*midptr), High: uint64(*highptr), Source: "client"})
 		if res.Partialval == 0 {

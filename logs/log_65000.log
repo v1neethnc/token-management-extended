@@ -1,16 +1,13 @@
-applog: 2022/05/13 02:29:20 servercode.go:119: Operation: Create
-applog: 2022/05/13 02:29:20 servercode.go:109: Current token data:
-applog: 2022/05/13 02:29:20 servercode.go:110: ID: 1020, Name: , Low: 0, Mid: 0, High: 0
-applog: 2022/05/13 02:29:20 servercode.go:98: Other token IDs:
-applog: 2022/05/13 02:29:20 servercode.go:104: -----------------------------------------------------------
-applog: 2022/05/13 02:29:23 servercode.go:237: Operation: Write
-applog: 2022/05/13 02:29:23 servercode.go:109: Current token data:
-applog: 2022/05/13 02:29:23 servercode.go:110: ID: 1020, Name: abc, Low: 214, Mid: 434, High: 1000
-applog: 2022/05/13 02:29:23 servercode.go:98: Other token IDs:
-applog: 2022/05/13 02:29:23 servercode.go:104: -----------------------------------------------------------
-applog: 2022/05/13 02:29:27 servercode.go:197: Operation: Read
-applog: 2022/05/13 02:29:27 servercode.go:199: 1020
-applog: 2022/05/13 02:29:27 servercode.go:109: Current token data:
-applog: 2022/05/13 02:29:27 servercode.go:110: ID: 1020, Name: abc, Low: 214, Mid: 434, High: 1000
-applog: 2022/05/13 02:29:27 servercode.go:98: Other token IDs:
-applog: 2022/05/13 02:29:27 servercode.go:104: -----------------------------------------------------------
+applog: 2022/05/14 02:23:08 servercode.go:121: 1020 65000 0.170131479 false
+applog: 2022/05/14 02:23:08 servercode.go:137: Operation: Create
+applog: 2022/05/14 02:23:08 servercode.go:113: Current token data:
+applog: 2022/05/14 02:23:08 servercode.go:114: ID: 1020, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/14 02:23:08 servercode.go:102: Other token IDs:
+applog: 2022/05/14 02:23:08 servercode.go:108: -----------------------------------------------------------
+applog: 2022/05/14 02:23:13 servercode.go:121: 1020 65000 5.589299893 false
+applog: 2022/05/14 02:23:13 servercode.go:269: Operation: Write
+applog: 2022/05/14 02:23:13 servercode.go:113: Current token data:
+applog: 2022/05/14 02:23:13 servercode.go:114: ID: 1020, Name: abc, Low: 214, Mid: 434, High: 1000
+applog: 2022/05/14 02:23:13 servercode.go:102: Other token IDs:
+applog: 2022/05/14 02:23:13 servercode.go:108: -----------------------------------------------------------
+applog: 2022/05/14 02:23:26 servercode.go:121: 1020 65000 19.019040571 true
