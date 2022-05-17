@@ -1,0 +1,94 @@
+applog: 2022/05/16 21:27:48 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:27:48 servercode.go:158: Operation: Create
+applog: 2022/05/16 21:27:48 servercode.go:115: Current token data:
+applog: 2022/05/16 21:27:48 servercode.go:116: ID: 1020, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/16 21:27:48 servercode.go:186: Timestamp is set
+applog: 2022/05/16 21:27:48 servercode.go:104: Other token IDs:
+applog: 2022/05/16 21:27:48 servercode.go:110: -----------------------------------------------------------
+applog: 2022/05/16 21:27:48 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:27:48 servercode.go:352: Operation: Write
+applog: 2022/05/16 21:27:48 servercode.go:355: 0 true
+applog: 2022/05/16 21:27:48 servercode.go:358: writing this shit 0 0
+applog: 2022/05/16 21:27:48 servercode.go:115: Current token data:
+applog: 2022/05/16 21:27:48 servercode.go:116: ID: 1020, Name: abc, Low: 214, Mid: 434, High: 1000
+applog: 2022/05/16 21:27:48 servercode.go:104: Other token IDs:
+applog: 2022/05/16 21:27:48 servercode.go:110: -----------------------------------------------------------
+applog: 2022/05/16 21:27:49 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:27:51 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:27:53 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:27:55 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:27:56 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:27:56 servercode.go:272: Operation: Read
+applog: 2022/05/16 21:27:56 servercode.go:273: 1020
+applog: 2022/05/16 21:27:56 servercode.go:282: got into this shit [50001 65000 60000]
+applog: 2022/05/16 21:27:56 servercode.go:300: bro1 0
+applog: 2022/05/16 21:27:56 servercode.go:300: bro1 1
+applog: 2022/05/16 21:27:56 servercode.go:229: bitchass localhost:65000 65000
+applog: 2022/05/16 21:27:56 servercode.go:229: bitchass localhost:50001 50001
+applog: 2022/05/16 21:27:56 servercode.go:238: Asking question
+applog: 2022/05/16 21:27:56 servercode.go:238: Asking question
+applog: 2022/05/16 21:27:56 servercode.go:244: Response from the server: [1652750868 25822085626921962]
+applog: 2022/05/16 21:27:56 servercode.go:307: brorkorkokr [1652750868 25822085626921962] 2
+applog: 2022/05/16 21:27:56 servercode.go:309: bro [1652750868 25822085626921962]
+applog: 2022/05/16 21:27:56 servercode.go:314: brorkorkokr [1652750868 25822085626921962] 2
+applog: 2022/05/16 21:27:56 servercode.go:115: Current token data:
+applog: 2022/05/16 21:27:56 servercode.go:116: ID: 1020, Name: abc, Low: 214, Mid: 434, High: 1000
+applog: 2022/05/16 21:27:56 servercode.go:104: Other token IDs:
+applog: 2022/05/16 21:27:56 servercode.go:110: -----------------------------------------------------------
+applog: 2022/05/16 21:27:56 servercode.go:244: Response from the server: [0 25822085626921962]
+applog: 2022/05/16 21:27:58 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:28:07 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:28:07 servercode.go:272: Operation: Read
+applog: 2022/05/16 21:28:07 servercode.go:273: 1020
+applog: 2022/05/16 21:28:07 servercode.go:282: got into this shit [50001 65000 60000]
+applog: 2022/05/16 21:28:07 servercode.go:300: bro1 0
+applog: 2022/05/16 21:28:07 servercode.go:300: bro1 1
+applog: 2022/05/16 21:28:07 servercode.go:229: bitchass localhost:65000 65000
+applog: 2022/05/16 21:28:07 servercode.go:229: bitchass localhost:50001 50001
+applog: 2022/05/16 21:28:07 servercode.go:238: Asking question
+applog: 2022/05/16 21:28:07 servercode.go:238: Asking question
+applog: 2022/05/16 21:28:07 servercode.go:244: Response from the server: [1652750868 25822085626921962]
+applog: 2022/05/16 21:28:07 servercode.go:307: brorkorkokr [1652750868 25822085626921962] 2
+applog: 2022/05/16 21:28:07 servercode.go:314: brorkorkokr [1652750868 25822085626921962] 2
+applog: 2022/05/16 21:28:07 servercode.go:115: Current token data:
+applog: 2022/05/16 21:28:07 servercode.go:116: ID: 1020, Name: abc, Low: 214, Mid: 434, High: 1000
+applog: 2022/05/16 21:28:07 servercode.go:104: Other token IDs:
+applog: 2022/05/16 21:28:07 servercode.go:110: -----------------------------------------------------------
+applog: 2022/05/16 21:28:12 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:28:18 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:28:18 servercode.go:272: Operation: Read
+applog: 2022/05/16 21:28:18 servercode.go:273: 1020
+applog: 2022/05/16 21:28:18 servercode.go:282: got into this shit [50001 65000 60000]
+applog: 2022/05/16 21:28:18 servercode.go:300: bro1 0
+applog: 2022/05/16 21:28:18 servercode.go:300: bro1 1
+applog: 2022/05/16 21:28:18 servercode.go:229: bitchass localhost:65000 65000
+applog: 2022/05/16 21:28:18 servercode.go:229: bitchass localhost:50001 50001
+applog: 2022/05/16 21:28:18 servercode.go:238: Asking question
+applog: 2022/05/16 21:28:18 servercode.go:238: Asking question
+applog: 2022/05/16 21:28:18 servercode.go:244: Response from the server: [1652750868 25822085626921962]
+applog: 2022/05/16 21:28:18 servercode.go:307: brorkorkokr [1652750868 25822085626921962] 2
+applog: 2022/05/16 21:28:18 servercode.go:314: brorkorkokr [1652750868 25822085626921962] 2
+applog: 2022/05/16 21:28:18 servercode.go:115: Current token data:
+applog: 2022/05/16 21:28:18 servercode.go:116: ID: 1020, Name: abc, Low: 214, Mid: 434, High: 1000
+applog: 2022/05/16 21:28:18 servercode.go:104: Other token IDs:
+applog: 2022/05/16 21:28:18 servercode.go:110: -----------------------------------------------------------
+applog: 2022/05/16 21:28:23 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:28:37 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:33:16 servercode.go:120: Fail silent pre
+applog: 2022/05/16 21:33:16 servercode.go:272: Operation: Read
+applog: 2022/05/16 21:33:16 servercode.go:273: 1020
+applog: 2022/05/16 21:33:16 servercode.go:282: got into this shit [50001 65000 60000]
+applog: 2022/05/16 21:33:16 servercode.go:300: bro1 0
+applog: 2022/05/16 21:33:16 servercode.go:300: bro1 1
+applog: 2022/05/16 21:33:16 servercode.go:229: bitchass localhost:65000 65000
+applog: 2022/05/16 21:33:16 servercode.go:229: bitchass localhost:50001 50001
+applog: 2022/05/16 21:33:16 servercode.go:238: Asking question
+applog: 2022/05/16 21:33:16 servercode.go:238: Asking question
+applog: 2022/05/16 21:33:16 servercode.go:244: Response from the server: [1652750868 25822085626921962]
+applog: 2022/05/16 21:33:16 servercode.go:307: brorkorkokr [1652750868 25822085626921962] 2
+applog: 2022/05/16 21:33:16 servercode.go:314: brorkorkokr [1652750868 25822085626921962] 2
+applog: 2022/05/16 21:33:16 servercode.go:115: Current token data:
+applog: 2022/05/16 21:33:16 servercode.go:116: ID: 1020, Name: abc, Low: 214, Mid: 434, High: 1000
+applog: 2022/05/16 21:33:16 servercode.go:104: Other token IDs:
+applog: 2022/05/16 21:33:16 servercode.go:110: -----------------------------------------------------------
+applog: 2022/05/16 21:35:32 servercode.go:120: Fail silent pre

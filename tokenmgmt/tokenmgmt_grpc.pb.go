@@ -22,6 +22,7 @@ type TokenManagementClient interface {
 	Read(ctx context.Context, in *ReadInput, opts ...grpc.CallOption) (*ResultRead, error)
 	Write(ctx context.Context, in *WriteInput, opts ...grpc.CallOption) (*ResultWrite, error)
 	Drop(ctx context.Context, in *CreateInput, opts ...grpc.CallOption) (*SuccessStatus, error)
+	RIWMTest(ctx context.Context, in *RIWMInput, opts ...grpc.CallOption) (*RIWMOutput, error)
 }
 
 type tokenManagementClient struct {
@@ -68,6 +69,15 @@ func (c *tokenManagementClient) Drop(ctx context.Context, in *CreateInput, opts 
 	return out, nil
 }
 
+func (c *tokenManagementClient) RIWMTest(ctx context.Context, in *RIWMInput, opts ...grpc.CallOption) (*RIWMOutput, error) {
+	out := new(RIWMOutput)
+	err := c.cc.Invoke(ctx, "/tokenmgmt.TokenManagement/RIWMTest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TokenManagementServer is the server API for TokenManagement service.
 // All implementations must embed UnimplementedTokenManagementServer
 // for forward compatibility
@@ -76,6 +86,7 @@ type TokenManagementServer interface {
 	Read(context.Context, *ReadInput) (*ResultRead, error)
 	Write(context.Context, *WriteInput) (*ResultWrite, error)
 	Drop(context.Context, *CreateInput) (*SuccessStatus, error)
+	RIWMTest(context.Context, *RIWMInput) (*RIWMOutput, error)
 	mustEmbedUnimplementedTokenManagementServer()
 }
 
@@ -94,6 +105,9 @@ func (UnimplementedTokenManagementServer) Write(context.Context, *WriteInput) (*
 }
 func (UnimplementedTokenManagementServer) Drop(context.Context, *CreateInput) (*SuccessStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Drop not implemented")
+}
+func (UnimplementedTokenManagementServer) RIWMTest(context.Context, *RIWMInput) (*RIWMOutput, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RIWMTest not implemented")
 }
 func (UnimplementedTokenManagementServer) mustEmbedUnimplementedTokenManagementServer() {}
 
@@ -180,6 +194,24 @@ func _TokenManagement_Drop_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TokenManagement_RIWMTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RIWMInput)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TokenManagementServer).RIWMTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/tokenmgmt.TokenManagement/RIWMTest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TokenManagementServer).RIWMTest(ctx, req.(*RIWMInput))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TokenManagement_ServiceDesc is the grpc.ServiceDesc for TokenManagement service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -202,6 +234,10 @@ var TokenManagement_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Drop",
 			Handler:    _TokenManagement_Drop_Handler,
+		},
+		{
+			MethodName: "RIWMTest",
+			Handler:    _TokenManagement_RIWMTest_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

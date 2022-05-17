@@ -7,6 +7,7 @@ option go_package = "example.com/go-tokenmgmt-grpc;go_tokenmgmt_grpc";
 message CreateInput {
 	uint32 id = 1;
 	string source = 2;
+	uint64 lst_tstmp = 3;
 }
 
 message WriteInput {
@@ -16,10 +17,12 @@ message WriteInput {
 	uint64 mid = 4;
 	uint64 high = 5;
 	string source = 6;
+	uint64 lst_tstmp = 7;
 }
 
 message ReadInput {
 	uint32 id = 1;
+	uint64 lst_tstmp = 2;
 }
 
 message SuccessStatus {
@@ -34,9 +37,20 @@ message ResultWrite {
 	uint64 partialval = 1;
 }
 
+message RIWMInput {
+	uint32 id = 1;
+	uint64 lst_tstmp = 2;
+}
+
+message RIWMOutput {
+	uint64 lst_tstmp = 1;
+	uint64 finalval = 2;
+}
+
 service TokenManagement {
 	rpc Create(CreateInput) returns (SuccessStatus) {}
 	rpc Read(ReadInput) returns (ResultRead) {}
 	rpc Write(WriteInput) returns (ResultWrite) {}
 	rpc Drop(CreateInput) returns (SuccessStatus) {}
+	rpc RIWMTest(RIWMInput) returns (RIWMOutput) {}
 }

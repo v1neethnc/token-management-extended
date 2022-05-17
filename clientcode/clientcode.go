@@ -82,7 +82,7 @@ func main() {
 	switch os.Args[1] {
 	case "-create":
 		writer_port := strings.Index(writer, ":")
-		// fmt.Println(writer[writer_port+1:])
+		fmt.Println(writer[writer_port+1:])
 		cmd := exec.Command("go", "run", "servercode/servercode.go", "-port", writer[writer_port+1:])
 		// filename := "logs/" + writer[writer_port+1:] + "_log.txt"
 		// outfile, err := os.Create(filename)
@@ -96,20 +96,20 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		// wrt := "localhost:" + writer[writer_port+1:]
-		// fmt.Println(wrt)
-		conn, err := grpc.Dial(writer, grpc.WithInsecure(), grpc.WithBlock())
+		wrt := "localhost:" + writer[writer_port+1:]
+		// fmt.Println(writer)
+		conn, err := grpc.Dial(wrt, grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			log.Fatalf("Could not connect: %v", err)
 		}
 		defer conn.Close()
-
+		fmt.Println("bro")
 		// Get context and set a 10 second timeout
 		c := pb.NewTokenManagementClient(conn)
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		// fmt.Println(c, ctx)
 		defer cancel()
-		res, _ := c.Create(ctx, &pb.CreateInput{Id: uint32(*idptr), Source: "client"})
+		res, _ := c.Create(ctx, &pb.CreateInput{Id: uint32(*idptr), Source: "client", LstTstmp: uint64(time.Now().Unix())})
 		log.Println("\nResponse from the server:", res.Msg)
 
 	case "-read":
@@ -135,9 +135,9 @@ func main() {
 		c := pb.NewTokenManagementClient(conn)
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		res, err := c.Read(ctx, &pb.ReadInput{Id: uint32(*idptr)})
+		res, err := c.Read(ctx, &pb.ReadInput{Id: uint32(*idptr), LstTstmp: uint64(time.Now().Unix())})
 		if err != nil {
-			panic(err)
+			log.Println("Error:", err)
 		} else {
 			if res.Finalval == 0 {
 				log.Println("\nResponse from the server: Token does not exist.")
@@ -160,7 +160,7 @@ func main() {
 		c := pb.NewTokenManagementClient(conn)
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
-		res, _ := c.Write(ctx, &pb.WriteInput{Id: uint32(*idptr), Name: *nameptr, Low: uint64(*lowptr), Mid: uint64(*midptr), High: uint64(*highptr), Source: "client"})
+		res, _ := c.Write(ctx, &pb.WriteInput{Id: uint32(*idptr), Name: *nameptr, Low: uint64(*lowptr), Mid: uint64(*midptr), High: uint64(*highptr), Source: "client", LstTstmp: uint64(time.Now().Unix())})
 		if res.Partialval == 0 {
 			log.Println("\nResponse from the server: Token does not exist.")
 		} else {
