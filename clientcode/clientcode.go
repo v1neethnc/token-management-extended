@@ -54,23 +54,17 @@ func main() {
 	mastercmd := flag.NewFlagSet("test", flag.ExitOnError)
 	idptr := mastercmd.Int("id", 0, "id of token")
 	nameptr := mastercmd.String("name", "foobar", "name of token")
-	// hostptr := mastercmd.String("host", "localhost", "host to connect to")
-	// portptr := mastercmd.Int("port", 50051, "port to connect to")
 	lowptr := mastercmd.Int("low", 0, "low value of token")
 	midptr := mastercmd.Int("mid", 0, "mid value of token")
 	highptr := mastercmd.Int("high", 0, "high value of token")
-	// dropptr := mastercmd.Int("drop", 0, "id of token")
 
 	var writer string
 	// var id_val int
 	var readers []string
 
 	// Parse the command line arguments
-	if os.Args[1] == "-drop" {
-		mastercmd.Parse(os.Args[1:])
-	} else {
-		mastercmd.Parse(os.Args[2:])
-	}
+
+	mastercmd.Parse(os.Args[2:])
 	token_info := yaml_data_retriever(*idptr)
 	if token_info.Token != 0 {
 		// id_val = token_info.Token
@@ -82,15 +76,8 @@ func main() {
 	switch os.Args[1] {
 	case "-create":
 		writer_port := strings.Index(writer, ":")
-		fmt.Println(writer[writer_port+1:])
+		// fmt.Println(writer[writer_port+1:])
 		cmd := exec.Command("go", "run", "servercode/servercode.go", "-port", writer[writer_port+1:])
-		// filename := "logs/" + writer[writer_port+1:] + "_log.txt"
-		// outfile, err := os.Create(filename)
-		// if err != nil {
-		// 	panic(err)
-		// }
-		// defer outfile.Close()
-		// cmd.Stdout = outfile
 
 		err := cmd.Start()
 		if err != nil {
@@ -103,7 +90,6 @@ func main() {
 			log.Fatalf("Could not connect: %v", err)
 		}
 		defer conn.Close()
-		fmt.Println("bro")
 		// Get context and set a 10 second timeout
 		c := pb.NewTokenManagementClient(conn)
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
@@ -125,8 +111,8 @@ func main() {
 		}
 		random_ind := rand.Intn(len(reader_ports))
 		reader := reader_ports[random_ind]
-		fmt.Println(reader, random_ind, reader_ports)
-		rdr := "127.0.0.1:" + reader
+		// fmt.Println(reader, random_ind, reader_ports)
+		rdr := "localhost:" + reader
 		conn, err := grpc.Dial(rdr, grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			log.Fatalf("Could not connect: %v", err)
@@ -147,9 +133,9 @@ func main() {
 		}
 
 	case "-write":
-		ind := strings.Index(writer, ":")
-		port := writer[ind+1:]
-		fmt.Println(port)
+		// ind := strings.Index(writer, ":")
+		// port := writer[ind+1:]
+		// fmt.Println(port)
 		conn, err := grpc.Dial(writer, grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			log.Fatalf("Could not connect: %v", err)
@@ -167,8 +153,21 @@ func main() {
 			log.Println("\nResponse from the server:", res.Partialval)
 		}
 
-		// case "-drop":
-		// 	res, _ := c.Drop(ctx, &pb.TokenData{Id: uint32(*dropptr), Host: *hostptr, Port: uint32(*portptr)})
-		// 	log.Println("\nResponse from the server:", res.Msg)
+	case "-drop":
+		// ind := strings.Index(writer, ":")
+		// port := writer[ind+1:]
+		// fmt.Println(port)
+		conn, err := grpc.Dial(writer, grpc.WithInsecure(), grpc.WithBlock())
+		if err != nil {
+			log.Fatalf("Could not connect: %v", err)
+		}
+		defer conn.Close()
+
+		// Get context and set a 10 second timeout
+		c := pb.NewTokenManagementClient(conn)
+		ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+		defer cancel()
+		res, _ := c.Drop(ctx, &pb.CreateInput{Id: uint32(*idptr), Source: "client", LstTstmp: uint64(time.Now().Unix())})
+		log.Println("\nResponse from the server:", res.Msg)
 	}
 }

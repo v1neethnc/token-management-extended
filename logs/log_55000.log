@@ -1,0 +1,38 @@
+applog: 2022/05/17 02:03:48 servercode.go:183: -----------------------------------------------------------
+applog: 2022/05/17 02:03:48 servercode.go:184: Operation: Create
+applog: 2022/05/17 02:03:48 servercode.go:120: Current token data:
+applog: 2022/05/17 02:03:48 servercode.go:121: ID: 5060, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/17 02:03:48 servercode.go:104: Other token IDs:
+applog: 2022/05/17 02:03:48 servercode.go:114: 
+applog: 2022/05/17 02:03:51 servercode.go:183: -----------------------------------------------------------
+applog: 2022/05/17 02:03:51 servercode.go:184: Operation: Create
+applog: 2022/05/17 02:03:51 servercode.go:120: Current token data:
+applog: 2022/05/17 02:03:51 servercode.go:121: ID: 535, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/17 02:03:51 servercode.go:104: Other token IDs:
+applog: 2022/05/17 02:03:51 servercode.go:114: 5060 
+applog: 2022/05/17 02:03:52 servercode.go:336: -----------------------------------------------------------
+applog: 2022/05/17 02:03:52 servercode.go:337: Operation: Write
+applog: 2022/05/17 02:03:52 servercode.go:120: Current token data:
+applog: 2022/05/17 02:03:52 servercode.go:121: ID: 5060, Name: abc, Low: 43, Mid: 56, High: 123
+applog: 2022/05/17 02:03:52 servercode.go:104: Other token IDs:
+applog: 2022/05/17 02:03:52 servercode.go:114: 535 
+applog: 2022/05/17 02:03:52 servercode.go:336: -----------------------------------------------------------
+applog: 2022/05/17 02:03:52 servercode.go:337: Operation: Write
+applog: 2022/05/17 02:03:52 servercode.go:120: Current token data:
+applog: 2022/05/17 02:03:52 servercode.go:121: ID: 535, Name: abc, Low: 6743, Mid: 7543, High: 8522
+applog: 2022/05/17 02:03:52 servercode.go:104: Other token IDs:
+applog: 2022/05/17 02:03:52 servercode.go:114: 5060 
+applog: 2022/05/17 02:03:53 servercode.go:422: -----------------------------------------------------------
+applog: 2022/05/17 02:03:53 servercode.go:423: Operation: Drop
+applog: 2022/05/17 02:03:53 servercode.go:120: Current token data:
+applog: 2022/05/17 02:03:53 servercode.go:121: ID: 535, Name: abc, Low: 6743, Mid: 7543, High: 8522
+applog: 2022/05/17 02:03:53 servercode.go:437: Token deleted successfully.
+applog: 2022/05/17 02:03:53 servercode.go:104: Other token IDs:
+applog: 2022/05/17 02:03:53 servercode.go:114: 5060 
+applog: 2022/05/17 02:03:53 servercode.go:422: -----------------------------------------------------------
+applog: 2022/05/17 02:03:53 servercode.go:423: Operation: Drop
+applog: 2022/05/17 02:03:53 servercode.go:120: Current token data:
+applog: 2022/05/17 02:03:53 servercode.go:121: ID: 5060, Name: abc, Low: 43, Mid: 56, High: 123
+applog: 2022/05/17 02:03:53 servercode.go:437: Token deleted successfully.
+applog: 2022/05/17 02:03:53 servercode.go:104: Other token IDs:
+applog: 2022/05/17 02:03:53 servercode.go:114: 

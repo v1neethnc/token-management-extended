@@ -102,12 +102,17 @@ func is_exists(id_val uint32) (int, bool) {
 // Print all token IDs except for one specific token
 func print_all_tokens(ind_val int) {
 	logger.Println("Other token IDs:")
+	// var other_tokens string
+	other_tokens := ""
 	for ind := 0; ind < len(token_id_list); ind++ {
 		if ind != int(ind_val) {
-			fmt.Printf("%v ", token_id_list[ind])
+			other_tokens += strconv.Itoa(int(token_id_list[ind])) + " "
+			// logger.Println(other_tokens)
+			// logger.Printf("%v ", token_id_list[ind])
 		}
 	}
-	logger.Println("-----------------------------------------------------------")
+	logger.Println(other_tokens)
+	// logger.Println("-----------------------------------------------------------")
 }
 
 // Print current token information
@@ -117,7 +122,6 @@ func print_current_token(ind_val int) {
 }
 
 func fail_silent_check(token_id uint32) bool {
-	logger.Println("Fail silent pre")
 	_, status := is_exists(token_id)
 	if status && (port_nm == "65000") && (token_id == 1020) {
 		curr_time := time.Now()
@@ -146,6 +150,27 @@ func get_port_list(token_id uint32) []string {
 	return port_list
 }
 
+func get_finalvals(ch chan []uint64, element string, token_id uint32, lst_tstmp uint64) {
+	addr := "localhost:" + element
+	conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Could not connect: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewTokenManagementClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+	logger.Println("Asking question")
+	res, err := c.RIWMTest(ctx, &pb.RIWMInput{Id: token_id, LstTstmp: lst_tstmp})
+	if err == nil {
+		var data []uint64
+		data = append(data, res.LstTstmp)
+		data = append(data, res.Finalval)
+		logger.Println("Response from the server running on port", element, "in the quorum:", data)
+		ch <- data
+	}
+}
+
 // Create RPC call definition
 func (s *TokenManagementServer) Create(ctx context.Context, in *pb.CreateInput) (*pb.SuccessStatus, error) {
 	var msg string
@@ -155,6 +180,7 @@ func (s *TokenManagementServer) Create(ctx context.Context, in *pb.CreateInput) 
 		time.Sleep(10 * time.Second)
 		return &pb.SuccessStatus{Msg: msg}, nil
 	} else {
+		logger.Println("-----------------------------------------------------------")
 		logger.Println("Operation: Create")
 		// logger.Println(in.GetId())
 		msg = "test shit"
@@ -189,13 +215,12 @@ func (s *TokenManagementServer) Create(ctx context.Context, in *pb.CreateInput) 
 			msg = "Token already exists."
 			logger.Println(msg)
 		}
-		print_all_tokens(ind)
 		// logger.Println(readers, port_list)
 		if in.Source == "client" {
 			for _, element := range port_list {
 				// logger.Println(in.Source, element, port_nm, len(element), len(port_nm), element == port_nm)
 				if port_nm != element {
-					logger.Println("this is the writer invoking", element)
+					logger.Println("Sending Create RPC call to server running on port", element)
 					cmd := exec.Command("go", "run", "servercode/servercode.go", "-port", element)
 
 					err := cmd.Start()
@@ -214,49 +239,14 @@ func (s *TokenManagementServer) Create(ctx context.Context, in *pb.CreateInput) 
 					c := pb.NewTokenManagementClient(conn)
 					ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 					defer cancel()
-					res, _ := c.Create(ctx, &pb.CreateInput{Id: in.GetId(), Source: "writer"})
+					res, _ := c.Create(ctx, &pb.CreateInput{Id: in.GetId(), Source: "writer", LstTstmp: in.GetLstTstmp()})
 					msg = res.Msg
 					logger.Println("Response from the server:", res.Msg)
 				}
 			}
 		}
+		print_all_tokens(ind)
 		return &pb.SuccessStatus{Msg: msg}, nil
-	}
-}
-
-func get_finalvals(ch chan []uint64, element string, token_id uint32, lst_tstmp uint64) {
-	addr := "localhost:" + element
-	logger.Println("bitchass", addr, element)
-	conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("Could not connect: %v", err)
-	}
-	defer conn.Close()
-	c := pb.NewTokenManagementClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
-	defer cancel()
-	logger.Println("Asking question")
-	res, err := c.RIWMTest(ctx, &pb.RIWMInput{Id: token_id, LstTstmp: lst_tstmp})
-	if err == nil {
-		var data []uint64
-		data = append(data, res.LstTstmp)
-		data = append(data, res.Finalval)
-		logger.Println("Response from the server:", data)
-		ch <- data
-	}
-}
-
-func (s *TokenManagementServer) RIWMTest(ctx context.Context, in *pb.RIWMInput) (*pb.RIWMOutput, error) {
-	if fail_silent_check(in.GetId()) {
-		time.Sleep(10 * time.Second)
-		return &pb.RIWMOutput{LstTstmp: 0, Finalval: 0}, errors.New("token fail silent on server")
-	} else {
-		ind, res := is_exists(in.GetId())
-		if res {
-			return &pb.RIWMOutput{LstTstmp: token_list[ind].lst_tstmp, Finalval: token_list[ind].finalval}, nil
-		} else {
-			return &pb.RIWMOutput{LstTstmp: 0, Finalval: 0}, errors.New("token does not exist")
-		}
 	}
 }
 
@@ -265,10 +255,10 @@ func (s *TokenManagementServer) Read(ctx context.Context, in *pb.ReadInput) (*pb
 	var tmp uint64
 	tmp = 0
 	if fail_silent_check(in.GetId()) {
-		logger.Println("fail silent checking")
 		time.Sleep(10 * time.Second)
 		return &pb.ResultRead{Finalval: tmp}, nil
 	} else {
+		logger.Println("-----------------------------------------------------------")
 		logger.Println("Operation: Read")
 		logger.Println(in.GetId())
 
@@ -279,7 +269,6 @@ func (s *TokenManagementServer) Read(ctx context.Context, in *pb.ReadInput) (*pb
 			// Check if the write operation is already performed
 			if token_list[ind].partialval != 0 {
 				port_list := get_port_list(in.GetId())
-				logger.Println("got into this shit", port_list)
 				tmp = token_list[ind].finalval
 				// Apply a read lock to prevent data inconsistencies
 				// token_list[ind].mtx.RLock()
@@ -297,21 +286,17 @@ func (s *TokenManagementServer) Read(ctx context.Context, in *pb.ReadInput) (*pb
 				ch := make(chan []uint64)
 				for element := range port_list {
 					if port_list[element] != port_nm {
-						logger.Println("bro1", element)
 						go get_finalvals(ch, port_list[element], token_list[ind].id, token_list[ind].lst_tstmp)
 					}
 				}
 				ctr := 1
 				for res := range ch {
 					ctr = ctr + 1
-					logger.Println("brorkorkokr", res, ctr)
 					if res[0] > token_list[ind].lst_tstmp {
-						logger.Println("bro", res)
 						token_list[ind].lst_tstmp = res[0]
 						token_list[ind].finalval = res[1]
 						tmp = res[1]
 					}
-					logger.Println("brorkorkokr", res, ctr)
 					if len(port_list) == 2 {
 						if ctr == 2 {
 							print_current_token(ind)
@@ -325,7 +310,6 @@ func (s *TokenManagementServer) Read(ctx context.Context, in *pb.ReadInput) (*pb
 							return &pb.ResultRead{Finalval: tmp}, nil
 						}
 					}
-					logger.Println("brorkorkokr", res, ctr)
 				}
 				print_current_token(ind)
 			} else {
@@ -349,13 +333,13 @@ func (s *TokenManagementServer) Write(ctx context.Context, in *pb.WriteInput) (*
 		time.Sleep(10 * time.Second)
 		return &pb.ResultWrite{Partialval: tmp}, nil
 	} else {
+		logger.Println("-----------------------------------------------------------")
 		logger.Println("Operation: Write")
 		// Check if the token already exists
 		ind, res := is_exists(in.GetId())
-		logger.Println(ind, res)
 		// If the token exists
 		if res {
-			logger.Println("writing this shit", token_list[ind].lst_tstmp, in.GetLstTstmp())
+
 			// Lock the token because data is about to be written in the token
 			if token_list[ind].lst_tstmp <= in.GetLstTstmp() {
 
@@ -393,7 +377,6 @@ func (s *TokenManagementServer) Write(ctx context.Context, in *pb.WriteInput) (*
 
 		port_list := get_port_list(in.GetId())
 
-		print_all_tokens(ind)
 		// logger.Println(in.Source, port_list, in.Source == "client")
 		if in.Source == "client" {
 			for _, element := range port_list {
@@ -417,32 +400,36 @@ func (s *TokenManagementServer) Write(ctx context.Context, in *pb.WriteInput) (*
 					c := pb.NewTokenManagementClient(conn)
 					ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 					defer cancel()
-					res, _ := c.Write(ctx, &pb.WriteInput{Id: in.GetId(), Name: in.GetName(), Low: in.GetLow(), Mid: in.GetMid(), High: in.GetHigh(), Source: "writer"})
+					logger.Println("Sending Write RPC call to server running on port", element)
+					res, _ := c.Write(ctx, &pb.WriteInput{Id: in.GetId(), Name: in.GetName(), Low: in.GetLow(), Mid: in.GetMid(), High: in.GetHigh(), Source: "writer", LstTstmp: in.GetLstTstmp()})
 					tmp = res.Partialval
 					logger.Println("Response from the server:", res.Partialval)
 				}
 			}
 		}
+		print_all_tokens(ind)
 		return &pb.ResultWrite{Partialval: tmp}, nil
 	}
 }
 
 // Drop RPC call definition
 func (s *TokenManagementServer) Drop(ctx context.Context, in *pb.CreateInput) (*pb.SuccessStatus, error) {
-
 	var msg string
 	if fail_silent_check(in.GetId()) {
 		time.Sleep(10 * time.Second)
-		return &pb.SuccessStatus{Msg: msg}, nil
+		return &pb.SuccessStatus{Msg: msg}, errors.New("token fail silent on server")
 	} else {
-		logger.Println("\nOperation: Drop")
+		logger.Println("-----------------------------------------------------------")
+		logger.Println("Operation: Drop")
 		// Check if the token already exists
 		ind, res := is_exists(in.GetId())
 		// If the token exists
+		var del_tstmp uint64
 		if res {
 			// Drop the token by removing it from the token_list container
 			print_current_token(ind)
 			tmp := token_list[ind]
+			del_tstmp = tmp.lst_tstmp
 			tmp.mtx.Lock()
 			token_list = append(token_list[:ind], token_list[ind+1:]...)
 			tmp.mtx.Unlock()
@@ -454,8 +441,49 @@ func (s *TokenManagementServer) Drop(ctx context.Context, in *pb.CreateInput) (*
 			logger.Println("Token does not exist.")
 			msg = "Token does not exist, deletion impossible."
 		}
+		if in.Source == "client" {
+			port_list := get_port_list(in.GetId())
+			for element := range port_list {
+				if port_list[element] != port_nm {
+					logger.Println("Sending Drop RPC call to server running on port", port_list[element])
+					go func(element string, token_id uint32, lst_tstmp uint64) {
+						addr := "localhost:" + element
+						conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithBlock())
+						if err != nil {
+							log.Fatalf("Could not connect: %v", err)
+						}
+						defer conn.Close()
+						c := pb.NewTokenManagementClient(conn)
+						ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+						defer cancel()
+						res, err := c.Drop(ctx, &pb.CreateInput{Id: token_id, LstTstmp: lst_tstmp, Source: "writer"})
+						if err == nil {
+							data := res.Msg
+							logger.Println("Response from the server:", data)
+						}
+					}(port_list[element], in.GetId(), del_tstmp)
+
+				}
+			}
+
+		}
 		print_all_tokens(-1)
 		return &pb.SuccessStatus{Msg: msg}, nil
+	}
+}
+
+// RIWMTest RPC call definition
+func (s *TokenManagementServer) RIWMTest(ctx context.Context, in *pb.RIWMInput) (*pb.RIWMOutput, error) {
+	if fail_silent_check(in.GetId()) {
+		time.Sleep(10 * time.Second)
+		return &pb.RIWMOutput{LstTstmp: 0, Finalval: 0}, errors.New("token fail silent on server")
+	} else {
+		ind, res := is_exists(in.GetId())
+		if res {
+			return &pb.RIWMOutput{LstTstmp: token_list[ind].lst_tstmp, Finalval: token_list[ind].finalval}, nil
+		} else {
+			return &pb.RIWMOutput{LstTstmp: 0, Finalval: 0}, errors.New("token does not exist")
+		}
 	}
 }
 
