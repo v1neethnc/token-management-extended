@@ -24,7 +24,7 @@ IMPLEMENTATION
 The bulk of the project code is in the `servercode/servercode.go` file. The execution begins at the `clientcode/clientcode.go` file. 
 
 **Create RPC Call**
-Upon encountering a Create flag for a specified token in the command line, the client program reads the `yaml_final.yml` file and fetches the corresponding token's data. Once the data is fetched, the writer of the token is spawned by the client, and becomes the recipient of a subsequent Create RPC call.
+Upon encountering a Create flag for a specified token in the command line, the client program reads the `yaml_final.yml` file and fetches the corresponding token's data. Once the data is fetched, the writer of the token is spawned by the client, which then becomes the recipient of a subsequent Create RPC call.
 
 The writer, upon receiving the Create RPC Call, creates the token if it does not already exist. It then takes the responsibility of spawning the reader servers and issuing Create RPC calls to them so that the token may be replicated. The RPC calls are modified to be flexible enough to determine where the source of the RPC call is, which in turn allows the servers to determine whether to fetch data from the YAML file or not.
 

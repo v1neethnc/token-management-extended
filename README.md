@@ -30,6 +30,7 @@ This project implements a client-server system for a token management applicatio
   * `server_65000_log.png`
 * `client_commands.sh`
 * `report.md`
+* `README.md`
 * `go.mod`
 * `go.sum`
 * `yaml_final.yml`
