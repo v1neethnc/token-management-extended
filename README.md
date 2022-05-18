@@ -17,6 +17,14 @@ This project implements a client-server system for a token management applicatio
   * `tokenmgmt_grpc.pb.go`
   * `tokenmgmt.pb.gp`
   * `tokenmgmt.proto`
+* `logs`
+  * `log_11236.log`
+  * `log_23654.log`
+  * `log_50001.log`
+  * `log_52003.log`
+  * `log_55000.log`
+  * `log_60000.log`
+  * `log_65000.log`
 * `screenshots`
   * `outputs_client_command_sh.png`
   * `server_65000_log.png`
@@ -57,6 +65,10 @@ The file `yaml_final.yml` contains the replication schemes of all the tokens tha
 `report.md`
 -------------------------
 The file `report.md` is aimed at fulfilling the project reference report requirement. The reason this file is a .md and not a .docx is to ensure that it can be opened with the most basic of text editors. Use the native text editor to open the report. This file also contains notes about implementation and approaches taken to this project.
+
+`logs\`
+-------------------------
+This folder contains the logs of each server. The names of the files are standardized in the form `log_<port_number>.log`. Each file corresponds to the log of a server. Special emphasis on the file `log_65000.log` as it contains the results of fail-silent emulations. 
 
 Other files
 -------------------------
