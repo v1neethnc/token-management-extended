@@ -10,7 +10,7 @@ The hash function:
     Code used in file: servercode/servercode.go
     Line numbers in destination: 19-24
     Lines of code used: 6
-    Reason:The specific hash function to be used was supplied in the question statement and was used as it is in order to ensure that the hash calculations are correct.
+    Reason: The specific hash function to be used was supplied in the question statement and was used as it is in order to ensure that the hash calculations are correct.
 
 Lines of code resued: 6
 Total lines of code: 552 + 173 = 725
