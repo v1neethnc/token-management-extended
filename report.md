@@ -51,7 +51,6 @@ The writer then dispatches Drop RPC calls to all the readers in order to ensure 
 To satisfy the requirement of emulating fail-silent behaviour, the server contains hardcoded values to check for the conditions for a specific token in a specific server. This is done so that pinpointing the behaviour will be simple. In this project, the fail-silent behaviour is emulated for the token with the ID: 1020 in the server running on the port: 65000. The server running on this port will fail to respond to queries on the token 1020 after a time duration of 10 seconds since the token's creation.
 
 
-
 OTHER NOTES
 -------------------------
 

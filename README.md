@@ -43,6 +43,7 @@ Executables for both these files are present in their respective folders.
 
 The file `client_commands.sh` builds and runs the server program, client program, and kills all the server program instances that are created for this project. The bash file contains a variety of commands pertaining to the creation, reading, writing, and dropping of numerous tokens. The reader is free to change the order of those commands to see the impact of the change in the sequence of executions. In the middle, there is a five second delay in order to allow the emulation of fail-silent behavior on token 1020 on server 65000. More information in the report.
 
+
 `tokenmgmt.proto`
 -------------------------
 The file `tokenmgmt/tokenmgmt.proto` contains the definition of the messages and lists the RPC calls of the service. Ideally, this file SHOULD NOT BE TAMPERED WITH. Any changes made to this file will require recompiling of the proto file, which can be done with the following command:
@@ -51,6 +52,7 @@ The file `tokenmgmt/tokenmgmt.proto` contains the definition of the messages and
 
 NOTE: CHANGING THE PROTO FILE WILL MORE OFTEN THAN NOT REQUIRE CHANGES IN THE SERVER AND THE CLIENT CODE. HANDLE THE PROTO FILE AND THE SUBSEQUENT COMPILATION WITH CARE.
 
+
 Screenshots
 -------------------------
 The screenshots folder contains multiple screenshots of the outputs of the server and the client program executions. The screenshots provided pertain to the commands that are present in the `server.sh` and the `client.sh` by default. Changing the two files could result in a different output than what is provided in the screenshots.
@@ -58,17 +60,21 @@ The screenshots folder contains multiple screenshots of the outputs of the serve
 `outputs_client_command_sh.png` shows the outputs of the `client_commands.sh` file.
 `server_65000_log.png` shows the information present in the `log_65000.log` file.
 
+
 `yaml_final.yml`
 -------------------------
 The file `yaml_final.yml` contains the replication schemes of all the tokens that are present for this project. This file is accessible by both the client and the server programs.
+
 
 `report.md`
 -------------------------
 The file `report.md` is aimed at fulfilling the project reference report requirement. The reason this file is a .md and not a .docx is to ensure that it can be opened with the most basic of text editors. Use the native text editor to open the report. This file also contains notes about implementation and approaches taken to this project.
 
+
 `logs\`
 -------------------------
 This folder contains the logs of each server. The names of the files are standardized in the form `log_<port_number>.log`. Each file corresponds to the log of a server. Special emphasis on the file `log_65000.log` as it contains the results of fail-silent emulations. 
+
 
 Other files
 -------------------------
