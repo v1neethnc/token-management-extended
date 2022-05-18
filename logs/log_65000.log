@@ -1,23 +1,21 @@
-applog: 2022/05/17 02:03:46 servercode.go:183: -----------------------------------------------------------
-applog: 2022/05/17 02:03:46 servercode.go:184: Operation: Create
-applog: 2022/05/17 02:03:46 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:46 servercode.go:121: ID: 1020, Name: , Low: 0, Mid: 0, High: 0
-applog: 2022/05/17 02:03:46 servercode.go:212: Timestamp is set
-applog: 2022/05/17 02:03:46 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:46 servercode.go:114: 
-applog: 2022/05/17 02:03:51 servercode.go:129: 1020 65000 5.199396068 false
-applog: 2022/05/17 02:03:51 servercode.go:336: -----------------------------------------------------------
-applog: 2022/05/17 02:03:51 servercode.go:337: Operation: Write
-applog: 2022/05/17 02:03:51 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:51 servercode.go:121: ID: 1020, Name: abc, Low: 0, Mid: 10, High: 100
-applog: 2022/05/17 02:03:51 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:51 servercode.go:114: 
-applog: 2022/05/17 02:03:52 servercode.go:129: 1020 65000 5.644488559 false
-applog: 2022/05/17 02:03:53 servercode.go:129: 1020 65000 6.333846232 false
-applog: 2022/05/17 02:03:53 servercode.go:422: -----------------------------------------------------------
-applog: 2022/05/17 02:03:53 servercode.go:423: Operation: Drop
-applog: 2022/05/17 02:03:53 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:53 servercode.go:121: ID: 1020, Name: abc, Low: 0, Mid: 10, High: 100
-applog: 2022/05/17 02:03:53 servercode.go:437: Token deleted successfully.
-applog: 2022/05/17 02:03:53 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:53 servercode.go:114: 
+applog: 2022/05/17 19:27:50 servercode.go:220: -----------------------------------------------------------
+applog: 2022/05/17 19:27:50 servercode.go:221: Operation: Create
+applog: 2022/05/17 19:27:50 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:50 servercode.go:135: ID: 1020, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/17 19:27:50 servercode.go:252: Timestamp is set.
+applog: 2022/05/17 19:27:50 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:50 servercode.go:129: 
+applog: 2022/05/17 19:27:55 servercode.go:379: -----------------------------------------------------------
+applog: 2022/05/17 19:27:55 servercode.go:380: Operation: Write
+applog: 2022/05/17 19:27:55 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:55 servercode.go:135: ID: 1020, Name: token1, Low: 0, Mid: 10, High: 100
+applog: 2022/05/17 19:27:55 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:55 servercode.go:129: 
+applog: 2022/05/17 19:28:00 servercode.go:147: 10 second deadline reached, fail-silent behaviour enforced.
+applog: 2022/05/17 19:28:00 servercode.go:147: 10 second deadline reached, fail-silent behaviour enforced.
+applog: 2022/05/17 19:28:05 servercode.go:147: 10 second deadline reached, fail-silent behaviour enforced.
+applog: 2022/05/17 19:28:10 servercode.go:147: 10 second deadline reached, fail-silent behaviour enforced.
+applog: 2022/05/17 19:28:10 servercode.go:147: 10 second deadline reached, fail-silent behaviour enforced.
+applog: 2022/05/17 19:28:10 servercode.go:147: 10 second deadline reached, fail-silent behaviour enforced.
+applog: 2022/05/17 19:28:10 servercode.go:147: 10 second deadline reached, fail-silent behaviour enforced.
+applog: 2022/05/17 19:28:10 servercode.go:147: 10 second deadline reached, fail-silent behaviour enforced.

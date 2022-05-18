@@ -1,31 +1,31 @@
-applog: 2022/05/17 02:03:51 servercode.go:183: -----------------------------------------------------------
-applog: 2022/05/17 02:03:51 servercode.go:184: Operation: Create
-applog: 2022/05/17 02:03:51 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:51 servercode.go:121: ID: 2343, Name: , Low: 0, Mid: 0, High: 0
-applog: 2022/05/17 02:03:51 servercode.go:223: Sending Create RPC call to server running on port 52003
-applog: 2022/05/17 02:03:51 servercode.go:244: Response from the server: Token created successfully.
-applog: 2022/05/17 02:03:51 servercode.go:223: Sending Create RPC call to server running on port 11236
-applog: 2022/05/17 02:03:51 servercode.go:244: Response from the server: Token created successfully.
-applog: 2022/05/17 02:03:51 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:51 servercode.go:114: 
-applog: 2022/05/17 02:03:52 servercode.go:336: -----------------------------------------------------------
-applog: 2022/05/17 02:03:52 servercode.go:337: Operation: Write
-applog: 2022/05/17 02:03:52 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:52 servercode.go:121: ID: 2343, Name: abc, Low: 36, Mid: 335, High: 503
-applog: 2022/05/17 02:03:52 servercode.go:403: Sending Write RPC call to server running on port 52003
-applog: 2022/05/17 02:03:52 servercode.go:406: Response from the server: 59341900177088045
-applog: 2022/05/17 02:03:52 servercode.go:403: Sending Write RPC call to server running on port 11236
-applog: 2022/05/17 02:03:52 servercode.go:406: Response from the server: 59341900177088045
-applog: 2022/05/17 02:03:52 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:52 servercode.go:114: 
-applog: 2022/05/17 02:03:52 servercode.go:422: -----------------------------------------------------------
-applog: 2022/05/17 02:03:52 servercode.go:423: Operation: Drop
-applog: 2022/05/17 02:03:52 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:52 servercode.go:121: ID: 2343, Name: abc, Low: 36, Mid: 335, High: 503
-applog: 2022/05/17 02:03:52 servercode.go:437: Token deleted successfully.
-applog: 2022/05/17 02:03:52 servercode.go:448: Sending Drop RPC call to server running on port 52003
-applog: 2022/05/17 02:03:52 servercode.go:448: Sending Drop RPC call to server running on port 11236
-applog: 2022/05/17 02:03:52 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:52 servercode.go:114: 
-applog: 2022/05/17 02:03:52 servercode.go:462: Response from the server: Token deletion successful.
-applog: 2022/05/17 02:03:52 servercode.go:462: Response from the server: Token deletion successful.
+applog: 2022/05/17 19:27:55 servercode.go:220: -----------------------------------------------------------
+applog: 2022/05/17 19:27:55 servercode.go:221: Operation: Create
+applog: 2022/05/17 19:27:55 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:55 servercode.go:135: ID: 2343, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/17 19:27:55 servercode.go:268: Sending Create RPC call to server running on port 52003
+applog: 2022/05/17 19:27:55 servercode.go:289: Response from the server: Token created successfully.
+applog: 2022/05/17 19:27:55 servercode.go:268: Sending Create RPC call to server running on port 11236
+applog: 2022/05/17 19:27:55 servercode.go:289: Response from the server: Token created successfully.
+applog: 2022/05/17 19:27:55 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:55 servercode.go:129: 
+applog: 2022/05/17 19:27:55 servercode.go:379: -----------------------------------------------------------
+applog: 2022/05/17 19:27:55 servercode.go:380: Operation: Write
+applog: 2022/05/17 19:27:55 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:55 servercode.go:135: ID: 2343, Name: token2, Low: 36, Mid: 335, High: 503
+applog: 2022/05/17 19:27:55 servercode.go:440: Sending Write RPC call to server running on port 52003
+applog: 2022/05/17 19:27:55 servercode.go:443: Response from the server: 111962528828605486
+applog: 2022/05/17 19:27:55 servercode.go:440: Sending Write RPC call to server running on port 11236
+applog: 2022/05/17 19:27:55 servercode.go:443: Response from the server: 111962528828605486
+applog: 2022/05/17 19:27:55 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:55 servercode.go:129: 
+applog: 2022/05/17 19:28:10 servercode.go:459: -----------------------------------------------------------
+applog: 2022/05/17 19:28:10 servercode.go:460: Operation: Drop
+applog: 2022/05/17 19:28:10 servercode.go:134: Current token data:
+applog: 2022/05/17 19:28:10 servercode.go:135: ID: 2343, Name: token2, Low: 36, Mid: 335, High: 503
+applog: 2022/05/17 19:28:10 servercode.go:474: Token deleted successfully.
+applog: 2022/05/17 19:28:10 servercode.go:485: Sending Drop RPC call to server running on port 52003
+applog: 2022/05/17 19:28:10 servercode.go:485: Sending Drop RPC call to server running on port 11236
+applog: 2022/05/17 19:28:10 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:28:10 servercode.go:129: 
+applog: 2022/05/17 19:28:10 servercode.go:499: Response from the server: Token deletion successful.
+applog: 2022/05/17 19:28:10 servercode.go:499: Response from the server: Token deletion successful.

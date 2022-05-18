@@ -1,80 +1,99 @@
-applog: 2022/05/17 02:03:47 servercode.go:183: -----------------------------------------------------------
-applog: 2022/05/17 02:03:47 servercode.go:184: Operation: Create
-applog: 2022/05/17 02:03:47 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:47 servercode.go:121: ID: 1020, Name: , Low: 0, Mid: 0, High: 0
-applog: 2022/05/17 02:03:47 servercode.go:212: Timestamp is set
-applog: 2022/05/17 02:03:47 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:47 servercode.go:114: 
-applog: 2022/05/17 02:03:48 servercode.go:183: -----------------------------------------------------------
-applog: 2022/05/17 02:03:48 servercode.go:184: Operation: Create
-applog: 2022/05/17 02:03:48 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:48 servercode.go:121: ID: 5060, Name: , Low: 0, Mid: 0, High: 0
-applog: 2022/05/17 02:03:48 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:48 servercode.go:114: 1020 
-applog: 2022/05/17 02:03:51 servercode.go:183: -----------------------------------------------------------
-applog: 2022/05/17 02:03:51 servercode.go:184: Operation: Create
-applog: 2022/05/17 02:03:51 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:51 servercode.go:121: ID: 535, Name: , Low: 0, Mid: 0, High: 0
-applog: 2022/05/17 02:03:51 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:51 servercode.go:114: 1020 5060 
-applog: 2022/05/17 02:03:51 servercode.go:336: -----------------------------------------------------------
-applog: 2022/05/17 02:03:51 servercode.go:337: Operation: Write
-applog: 2022/05/17 02:03:51 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:51 servercode.go:121: ID: 1020, Name: abc, Low: 0, Mid: 10, High: 100
-applog: 2022/05/17 02:03:51 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:51 servercode.go:114: 5060 535 
-applog: 2022/05/17 02:03:52 servercode.go:336: -----------------------------------------------------------
-applog: 2022/05/17 02:03:52 servercode.go:337: Operation: Write
-applog: 2022/05/17 02:03:52 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:52 servercode.go:121: ID: 5060, Name: abc, Low: 43, Mid: 56, High: 123
-applog: 2022/05/17 02:03:52 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:52 servercode.go:114: 1020 535 
-applog: 2022/05/17 02:03:52 servercode.go:336: -----------------------------------------------------------
-applog: 2022/05/17 02:03:52 servercode.go:337: Operation: Write
-applog: 2022/05/17 02:03:52 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:52 servercode.go:121: ID: 535, Name: abc, Low: 6743, Mid: 7543, High: 8522
-applog: 2022/05/17 02:03:52 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:52 servercode.go:114: 1020 5060 
-applog: 2022/05/17 02:03:52 servercode.go:261: -----------------------------------------------------------
-applog: 2022/05/17 02:03:52 servercode.go:262: Operation: Read
-applog: 2022/05/17 02:03:52 servercode.go:263: 5060
-applog: 2022/05/17 02:03:52 servercode.go:163: Asking question
-applog: 2022/05/17 02:03:52 servercode.go:169: Response from the server running on port 55000 in the quorum: [1652767432 60570345165277511]
-applog: 2022/05/17 02:03:52 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:52 servercode.go:121: ID: 5060, Name: abc, Low: 43, Mid: 56, High: 123
-applog: 2022/05/17 02:03:52 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:52 servercode.go:114: 1020 535 
-applog: 2022/05/17 02:03:52 servercode.go:261: -----------------------------------------------------------
-applog: 2022/05/17 02:03:52 servercode.go:262: Operation: Read
-applog: 2022/05/17 02:03:52 servercode.go:263: 535
-applog: 2022/05/17 02:03:52 servercode.go:163: Asking question
-applog: 2022/05/17 02:03:52 servercode.go:169: Response from the server running on port 11236 in the quorum: [1652767432 11828056087396517]
-applog: 2022/05/17 02:03:52 servercode.go:163: Asking question
-applog: 2022/05/17 02:03:52 servercode.go:163: Asking question
-applog: 2022/05/17 02:03:52 servercode.go:169: Response from the server running on port 55000 in the quorum: [1652767432 11828056087396517]
-applog: 2022/05/17 02:03:52 servercode.go:169: Response from the server running on port 52003 in the quorum: [1652767432 11828056087396517]
-applog: 2022/05/17 02:03:52 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:52 servercode.go:121: ID: 535, Name: abc, Low: 6743, Mid: 7543, High: 8522
-applog: 2022/05/17 02:03:52 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:52 servercode.go:114: 1020 5060 
-applog: 2022/05/17 02:03:53 servercode.go:422: -----------------------------------------------------------
-applog: 2022/05/17 02:03:53 servercode.go:423: Operation: Drop
-applog: 2022/05/17 02:03:53 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:53 servercode.go:121: ID: 1020, Name: abc, Low: 0, Mid: 10, High: 100
-applog: 2022/05/17 02:03:53 servercode.go:437: Token deleted successfully.
-applog: 2022/05/17 02:03:53 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:53 servercode.go:114: 5060 535 
-applog: 2022/05/17 02:03:53 servercode.go:422: -----------------------------------------------------------
-applog: 2022/05/17 02:03:53 servercode.go:423: Operation: Drop
-applog: 2022/05/17 02:03:53 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:53 servercode.go:121: ID: 535, Name: abc, Low: 6743, Mid: 7543, High: 8522
-applog: 2022/05/17 02:03:53 servercode.go:437: Token deleted successfully.
-applog: 2022/05/17 02:03:53 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:53 servercode.go:114: 5060 
-applog: 2022/05/17 02:03:53 servercode.go:422: -----------------------------------------------------------
-applog: 2022/05/17 02:03:53 servercode.go:423: Operation: Drop
-applog: 2022/05/17 02:03:53 servercode.go:120: Current token data:
-applog: 2022/05/17 02:03:53 servercode.go:121: ID: 5060, Name: abc, Low: 43, Mid: 56, High: 123
-applog: 2022/05/17 02:03:53 servercode.go:437: Token deleted successfully.
-applog: 2022/05/17 02:03:53 servercode.go:104: Other token IDs:
-applog: 2022/05/17 02:03:53 servercode.go:114: 
+applog: 2022/05/17 19:27:51 servercode.go:220: -----------------------------------------------------------
+applog: 2022/05/17 19:27:51 servercode.go:221: Operation: Create
+applog: 2022/05/17 19:27:51 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:51 servercode.go:135: ID: 1020, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/17 19:27:51 servercode.go:252: Timestamp is set.
+applog: 2022/05/17 19:27:51 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:51 servercode.go:129: 
+applog: 2022/05/17 19:27:52 servercode.go:220: -----------------------------------------------------------
+applog: 2022/05/17 19:27:52 servercode.go:221: Operation: Create
+applog: 2022/05/17 19:27:52 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:52 servercode.go:135: ID: 5060, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/17 19:27:52 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:52 servercode.go:129: 1020 
+applog: 2022/05/17 19:27:55 servercode.go:220: -----------------------------------------------------------
+applog: 2022/05/17 19:27:55 servercode.go:221: Operation: Create
+applog: 2022/05/17 19:27:55 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:55 servercode.go:135: ID: 535, Name: , Low: 0, Mid: 0, High: 0
+applog: 2022/05/17 19:27:55 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:55 servercode.go:129: 1020 5060 
+applog: 2022/05/17 19:27:55 servercode.go:379: -----------------------------------------------------------
+applog: 2022/05/17 19:27:55 servercode.go:380: Operation: Write
+applog: 2022/05/17 19:27:55 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:55 servercode.go:135: ID: 1020, Name: token1, Low: 0, Mid: 10, High: 100
+applog: 2022/05/17 19:27:55 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:55 servercode.go:129: 5060 535 
+applog: 2022/05/17 19:27:55 servercode.go:379: -----------------------------------------------------------
+applog: 2022/05/17 19:27:55 servercode.go:380: Operation: Write
+applog: 2022/05/17 19:27:55 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:55 servercode.go:135: ID: 5060, Name: token4, Low: 43, Mid: 56, High: 123
+applog: 2022/05/17 19:27:55 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:55 servercode.go:129: 1020 535 
+applog: 2022/05/17 19:27:55 servercode.go:379: -----------------------------------------------------------
+applog: 2022/05/17 19:27:55 servercode.go:380: Operation: Write
+applog: 2022/05/17 19:27:55 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:55 servercode.go:135: ID: 535, Name: token5, Low: 6743, Mid: 7543, High: 8522
+applog: 2022/05/17 19:27:55 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:55 servercode.go:129: 1020 5060 
+applog: 2022/05/17 19:27:55 servercode.go:308: -----------------------------------------------------------
+applog: 2022/05/17 19:27:55 servercode.go:309: Operation: Read
+applog: 2022/05/17 19:27:55 servercode.go:310: 1020
+applog: 2022/05/17 19:27:55 servercode.go:206: Response from the server running on port 65000 in the quorum: [1652830075 201727370335385989]
+applog: 2022/05/17 19:27:55 servercode.go:206: Response from the server running on port 50001 in the quorum: [1652830075 201727370335385989]
+applog: 2022/05/17 19:27:55 servercode.go:134: Current token data:
+applog: 2022/05/17 19:27:55 servercode.go:135: ID: 1020, Name: token1, Low: 0, Mid: 10, High: 100
+applog: 2022/05/17 19:27:55 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:27:55 servercode.go:129: 5060 535 
+applog: 2022/05/17 19:28:00 servercode.go:308: -----------------------------------------------------------
+applog: 2022/05/17 19:28:00 servercode.go:309: Operation: Read
+applog: 2022/05/17 19:28:00 servercode.go:310: 1020
+applog: 2022/05/17 19:28:00 servercode.go:206: Response from the server running on port 50001 in the quorum: [1652830075 201727370335385989]
+applog: 2022/05/17 19:28:00 servercode.go:134: Current token data:
+applog: 2022/05/17 19:28:00 servercode.go:135: ID: 1020, Name: token1, Low: 0, Mid: 10, High: 100
+applog: 2022/05/17 19:28:00 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:28:00 servercode.go:129: 5060 535 
+applog: 2022/05/17 19:28:10 servercode.go:308: -----------------------------------------------------------
+applog: 2022/05/17 19:28:10 servercode.go:309: Operation: Read
+applog: 2022/05/17 19:28:10 servercode.go:310: 1020
+applog: 2022/05/17 19:28:10 servercode.go:206: Response from the server running on port 50001 in the quorum: [1652830075 201727370335385989]
+applog: 2022/05/17 19:28:10 servercode.go:134: Current token data:
+applog: 2022/05/17 19:28:10 servercode.go:135: ID: 1020, Name: token1, Low: 0, Mid: 10, High: 100
+applog: 2022/05/17 19:28:10 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:28:10 servercode.go:129: 5060 535 
+applog: 2022/05/17 19:28:10 servercode.go:308: -----------------------------------------------------------
+applog: 2022/05/17 19:28:10 servercode.go:309: Operation: Read
+applog: 2022/05/17 19:28:10 servercode.go:310: 1020
+applog: 2022/05/17 19:28:10 servercode.go:206: Response from the server running on port 50001 in the quorum: [1652830075 201727370335385989]
+applog: 2022/05/17 19:28:10 servercode.go:134: Current token data:
+applog: 2022/05/17 19:28:10 servercode.go:135: ID: 1020, Name: token1, Low: 0, Mid: 10, High: 100
+applog: 2022/05/17 19:28:10 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:28:10 servercode.go:129: 5060 535 
+applog: 2022/05/17 19:28:10 servercode.go:308: -----------------------------------------------------------
+applog: 2022/05/17 19:28:10 servercode.go:309: Operation: Read
+applog: 2022/05/17 19:28:10 servercode.go:310: 1020
+applog: 2022/05/17 19:28:10 servercode.go:206: Response from the server running on port 50001 in the quorum: [1652830075 201727370335385989]
+applog: 2022/05/17 19:28:10 servercode.go:134: Current token data:
+applog: 2022/05/17 19:28:10 servercode.go:135: ID: 1020, Name: token1, Low: 0, Mid: 10, High: 100
+applog: 2022/05/17 19:28:10 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:28:10 servercode.go:129: 5060 535 
+applog: 2022/05/17 19:28:10 servercode.go:459: -----------------------------------------------------------
+applog: 2022/05/17 19:28:10 servercode.go:460: Operation: Drop
+applog: 2022/05/17 19:28:10 servercode.go:134: Current token data:
+applog: 2022/05/17 19:28:10 servercode.go:135: ID: 1020, Name: token1, Low: 0, Mid: 10, High: 100
+applog: 2022/05/17 19:28:10 servercode.go:474: Token deleted successfully.
+applog: 2022/05/17 19:28:10 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:28:10 servercode.go:129: 5060 535 
+applog: 2022/05/17 19:28:10 servercode.go:459: -----------------------------------------------------------
+applog: 2022/05/17 19:28:10 servercode.go:460: Operation: Drop
+applog: 2022/05/17 19:28:10 servercode.go:134: Current token data:
+applog: 2022/05/17 19:28:10 servercode.go:135: ID: 535, Name: token5, Low: 6743, Mid: 7543, High: 8522
+applog: 2022/05/17 19:28:10 servercode.go:474: Token deleted successfully.
+applog: 2022/05/17 19:28:10 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:28:10 servercode.go:129: 5060 
+applog: 2022/05/17 19:28:10 servercode.go:459: -----------------------------------------------------------
+applog: 2022/05/17 19:28:10 servercode.go:460: Operation: Drop
+applog: 2022/05/17 19:28:10 servercode.go:134: Current token data:
+applog: 2022/05/17 19:28:10 servercode.go:135: ID: 5060, Name: token4, Low: 43, Mid: 56, High: 123
+applog: 2022/05/17 19:28:10 servercode.go:474: Token deleted successfully.
+applog: 2022/05/17 19:28:10 servercode.go:118: Other token IDs:
+applog: 2022/05/17 19:28:10 servercode.go:129: 

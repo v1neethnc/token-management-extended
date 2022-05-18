@@ -52,6 +52,7 @@ type TokenData struct {
 	lst_tstmp  uint64
 }
 
+// Struct to read token data from YAML file
 type TokenAccess struct {
 	Token   int    `yaml:"token"`
 	Writer  string `yaml:"writer"`
@@ -65,11 +66,16 @@ func Hash(name string, nonce uint64) uint64 {
 	return binary.BigEndian.Uint64(hasher.Sum(nil))
 }
 
+// Function to retrieve a specific token's data from the YAML file
 func yaml_data_retriever(token_id int) TokenAccess {
+
+	// Open the YAML file and read the file as byte
 	yfile, err := ioutil.ReadFile("yaml_final.yml")
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	// Create a new Decoder object to parse YAML structure
 	decoder := yaml.NewDecoder(bytes.NewBufferString(string(yfile)))
 	for {
 		var sample TokenAccess
@@ -80,6 +86,8 @@ func yaml_data_retriever(token_id int) TokenAccess {
 			}
 			panic(err)
 		}
+
+		// If the current token information is the one we need, return the information
 		if sample.Token == token_id {
 			return sample
 		}
@@ -90,29 +98,35 @@ func yaml_data_retriever(token_id int) TokenAccess {
 
 // Check if a token with a given ID already exists
 func is_exists(id_val uint32) (int, bool) {
+
 	tmp := -1
+
+	// Iterate through the token ID list and return the index if present
 	for ind, val := range token_id_list {
 		if val == id_val {
 			return ind, true
 		}
 	}
+	// If not present, return -1 and False as result
 	return tmp, false
 }
 
 // Print all token IDs except for one specific token
 func print_all_tokens(ind_val int) {
+
+	// Create an empty string to store the IDs of the tokens
 	logger.Println("Other token IDs:")
-	// var other_tokens string
 	other_tokens := ""
+
 	for ind := 0; ind < len(token_id_list); ind++ {
 		if ind != int(ind_val) {
 			other_tokens += strconv.Itoa(int(token_id_list[ind])) + " "
-			// logger.Println(other_tokens)
-			// logger.Printf("%v ", token_id_list[ind])
+
 		}
 	}
+
+	// Print the information in the log file
 	logger.Println(other_tokens)
-	// logger.Println("-----------------------------------------------------------")
 }
 
 // Print current token information
@@ -121,24 +135,37 @@ func print_current_token(ind_val int) {
 	logger.Printf("ID: %d, Name: %s, Low: %d, Mid: %d, High: %d\n", token_list[ind_val].id, token_list[ind_val].name, token_list[ind_val].low, token_list[ind_val].mid, token_list[ind_val].high)
 }
 
+// Function to assist fail-silent emilation
 func fail_silent_check(token_id uint32) bool {
+
+	// Function works only for the token 1020 on server 65000
 	_, status := is_exists(token_id)
 	if status && (port_nm == "65000") && (token_id == 1020) {
 		curr_time := time.Now()
 		diff := curr_time.Sub(fs_timestamp).Seconds()
-		logger.Println(token_id, port_nm, diff, diff > 10)
+		if diff > 10 {
+			logger.Println("10 second deadline reached, fail-silent behaviour enforced.")
+		}
 		return diff > 10
 	}
 	return false
 }
 
+// Function to get the list of reader ports
 func get_port_list(token_id uint32) []string {
+
 	var readers []string
 	var port_list []string
+
+	// Fetch the current token information from the file
 	token_info := yaml_data_retriever(int(token_id))
+
+	// Update the list of readers
 	if token_info.Token != 0 {
 		readers = strings.Split(token_info.Readers, " ")
 	}
+
+	// Iterate through the readers to update the list of reader ports
 	for _, element := range readers {
 		port := strings.Index(element, ":")
 		if element[len(element)-1:] == "," {
@@ -147,21 +174,31 @@ func get_port_list(token_id uint32) []string {
 			port_list = append(port_list, element[port+1:])
 		}
 	}
+
+	// Return the list of ports
 	return port_list
 }
 
+// Support function that performs Read-Impose Write-Majority
 func get_finalvals(ch chan []uint64, element string, token_id uint32, lst_tstmp uint64) {
+
+	// Connect to the node whose port is given in "element"
 	addr := "localhost:" + element
 	conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Could not connect: %v", err)
 	}
 	defer conn.Close()
+
+	// 3 second context timeout
 	c := pb.NewTokenManagementClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-	logger.Println("Asking question")
+
+	// Make the RIWMTest call to enforce Read-Impose Write-Majority
 	res, err := c.RIWMTest(ctx, &pb.RIWMInput{Id: token_id, LstTstmp: lst_tstmp})
+
+	// Store the data and write back to channel if no errors
 	if err == nil {
 		var data []uint64
 		data = append(data, res.LstTstmp)
@@ -182,9 +219,8 @@ func (s *TokenManagementServer) Create(ctx context.Context, in *pb.CreateInput) 
 	} else {
 		logger.Println("-----------------------------------------------------------")
 		logger.Println("Operation: Create")
-		// logger.Println(in.GetId())
-		msg = "test shit"
-		port_list := get_port_list(in.GetId())
+		msg = "Error encountered."
+
 		ind, res := is_exists(in.GetId())
 
 		// If the token does not exist, create the token
@@ -200,6 +236,8 @@ func (s *TokenManagementServer) Create(ctx context.Context, in *pb.CreateInput) 
 				finalval:   uint64(tmp),
 				lst_tstmp:  in.GetLstTstmp(),
 			}
+
+			// Lock the newly created token until it is added to the list
 			token1.mtx.Lock()
 			token_list = append(token_list, *token1)
 			token_id_list = append(token_id_list, token1.id)
@@ -207,38 +245,45 @@ func (s *TokenManagementServer) Create(ctx context.Context, in *pb.CreateInput) 
 			print_current_token(len(token_list) - 1)
 			msg = "Token created successfully."
 			ind = len(token_list) - 1
+
+			// Update the timestamp for the token named 1020
 			if token1.id == 1020 {
 				fs_timestamp = time.Now()
-				logger.Println("Timestamp is set")
+				logger.Println("Timestamp is set.")
 			}
 		} else {
 			msg = "Token already exists."
 			logger.Println(msg)
 		}
-		// logger.Println(readers, port_list)
-		if in.Source == "client" {
-			for _, element := range port_list {
-				// logger.Println(in.Source, element, port_nm, len(element), len(port_nm), element == port_nm)
-				if port_nm != element {
-					logger.Println("Sending Create RPC call to server running on port", element)
-					cmd := exec.Command("go", "run", "servercode/servercode.go", "-port", element)
 
+		// If the source of the Write is client, then the writer has to update the readers
+		if in.Source == "client" {
+			port_list := get_port_list(in.GetId())
+			for _, element := range port_list {
+
+				// If the array element is not the same as the current server
+				if port_nm != element {
+
+					// Create the reader servers
+					logger.Println("Sending Create RPC call to server running on port", element)
+					cmd := exec.Command("servercode/servercode", "-port", element)
 					err := cmd.Start()
 					if err != nil {
 						panic(err)
 					}
 					addr := "localhost:" + element
-					// logger.Println("this is a writer", addr)
 					conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithBlock())
 					if err != nil {
 						log.Fatalf("Could not connect: %v", err)
 					}
 					defer conn.Close()
 
-					// Get context and set a 10 second timeout
+					// Get context and set a 5 second timeout
 					c := pb.NewTokenManagementClient(conn)
-					ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+					ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 					defer cancel()
+
+					// Send the Create RPC call to the reader to update its token
 					res, _ := c.Create(ctx, &pb.CreateInput{Id: in.GetId(), Source: "writer", LstTstmp: in.GetLstTstmp()})
 					msg = res.Msg
 					logger.Println("Response from the server:", res.Msg)
@@ -254,6 +299,8 @@ func (s *TokenManagementServer) Create(ctx context.Context, in *pb.CreateInput) 
 func (s *TokenManagementServer) Read(ctx context.Context, in *pb.ReadInput) (*pb.ResultRead, error) {
 	var tmp uint64
 	tmp = 0
+
+	// Check if the current token satisfies the fail-silent conditions
 	if fail_silent_check(in.GetId()) {
 		time.Sleep(10 * time.Second)
 		return &pb.ResultRead{Finalval: tmp}, nil
@@ -266,32 +313,28 @@ func (s *TokenManagementServer) Read(ctx context.Context, in *pb.ReadInput) (*pb
 		ind, res := is_exists(in.GetId())
 		// If the token exists
 		if res {
+
 			// Check if the write operation is already performed
 			if token_list[ind].partialval != 0 {
+
+				// Get the reader port lists and track the current token's finalval
 				port_list := get_port_list(in.GetId())
 				tmp = token_list[ind].finalval
-				// Apply a read lock to prevent data inconsistencies
-				// token_list[ind].mtx.RLock()
-				// val := Hash(token_list[ind].name, token_list[ind].mid)
-				// for i := token_list[ind].mid + 1; i < token_list[ind].high; i++ {
-				// 	tmp = Hash(token_list[ind].name, i)
-				// 	if tmp < val {
-				// 		val = tmp
-				// 	}
-				// }
-				// token_list[ind].finalval = val
-				// // Release the read lock
-				// token_list[ind].mtx.RUnlock()
-				// tmp = val
+
+				// Initialize a channel for the Read-Impose Write-Majority results and spawn the goroutines
 				ch := make(chan []uint64)
 				for element := range port_list {
 					if port_list[element] != port_nm {
 						go get_finalvals(ch, port_list[element], token_list[ind].id, token_list[ind].lst_tstmp)
 					}
 				}
+
+				// Read from the channel at least until a majority of responses have been received
 				ctr := 1
 				for res := range ch {
 					ctr = ctr + 1
+
+					// Update the current token information if it is outdated
 					if res[0] > token_list[ind].lst_tstmp {
 						token_list[ind].lst_tstmp = res[0]
 						token_list[ind].finalval = res[1]
@@ -313,7 +356,7 @@ func (s *TokenManagementServer) Read(ctx context.Context, in *pb.ReadInput) (*pb
 				}
 				print_current_token(ind)
 			} else {
-				// If the write operation is not performed
+				// If the write operation is not yet performed
 				logger.Println("Token values are not set.")
 			}
 		} else {
@@ -382,12 +425,6 @@ func (s *TokenManagementServer) Write(ctx context.Context, in *pb.WriteInput) (*
 			for _, element := range port_list {
 				// logger.Println(in.Source, element, port_nm, len(element), len(port_nm), element == port_nm)
 				if port_nm != element {
-					cmd := exec.Command("go", "run", "servercode/servercode.go", "-port", element)
-
-					err := cmd.Start()
-					if err != nil {
-						panic(err)
-					}
 					addr := "localhost:" + element
 					// logger.Println("this is a writer", addr)
 					conn, err := grpc.Dial(addr, grpc.WithInsecure(), grpc.WithBlock())
